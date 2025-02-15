@@ -1,5 +1,5 @@
-import type { NextConfig } from "next";
-import CompressionPlugin from "compression-webpack-plugin";
+import type { NextConfig } from "next"
+import CompressionPlugin from "compression-webpack-plugin"
 
 const nextConfig: NextConfig = {
 	compress: true,
@@ -37,11 +37,11 @@ const nextConfig: NextConfig = {
 					test: /\.(js|css|html|svg)$/,
 					threshold: 10240,
 					minRatio: 0.8,
-				})
-			);
+				}),
+			)
 		}
 
-		return config;
+		return config
 	},
 	// async rewrites() {
 	// 	return [
@@ -51,6 +51,6 @@ const nextConfig: NextConfig = {
 	// 		},
 	// 	];
 	// },
-};
+}
 
-export default nextConfig;
+export default nextConfig

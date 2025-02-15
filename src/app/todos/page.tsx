@@ -2,12 +2,12 @@ import {
 	dehydrate,
 	HydrationBoundary,
 	QueryClient,
-} from "@tanstack/react-query";
+} from "@tanstack/react-query"
 
-import { apiGet } from "@/config/api/axios";
-import { Todo } from "@/types/TodoTypes";
-import { Todos } from "./todos";
-import { Metadata } from "next";
+import { apiGet } from "@/config/api/axios"
+import { Todo } from "@/types/TodoTypes"
+import { Todos } from "./todos"
+import { Metadata } from "next"
 
 export const metadata: Metadata = {
 	title: "Todos List | Next.js Template",
@@ -25,22 +25,22 @@ export const metadata: Metadata = {
 		description:
 			"Browse and manage your todos. A comprehensive list of all your tasks and their current status.",
 	},
-};
+}
 
 export default async function TodosPage() {
-	const queryClient = new QueryClient();
+	const queryClient = new QueryClient()
 
 	await queryClient.prefetchQuery({
 		queryKey: ["todos"],
 		queryFn: async () => {
-			const data = await apiGet<Todo[]>("/todos");
-			return data;
+			const data = await apiGet<Todo[]>("/todos")
+			return data
 		},
-	});
+	})
 
 	return (
 		<HydrationBoundary state={dehydrate(queryClient)}>
 			<Todos />
 		</HydrationBoundary>
-	);
+	)
 }

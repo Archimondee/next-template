@@ -1,21 +1,24 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import qs from "query-string";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
+import qs from "query-string"
 
 export const getAccessToken = (): string | null => {
-	return localStorage.getItem("accessToken");
-};
+	return localStorage.getItem("accessToken")
+}
 
 const parseQueryParams = (url: string): any => {
-	const queryString = url.split("?")[1];
-	if (!queryString) return null;
+	const queryString = url.split("?")[1]
+	if (!queryString) return null
 
-	return queryString.split("&").reduce((acc, param) => {
-		const [key, value] = param.split("=");
-		//@ts-ignore
-		acc[key] = value;
-		return acc;
-	}, {} as Record<string, string>);
-};
+	return queryString.split("&").reduce(
+		(acc, param) => {
+			const [key, value] = param.split("=")
+			//@ts-ignore
+			acc[key] = value
+			return acc
+		},
+		{} as Record<string, string>,
+	)
+}
 
 // const refreshToken = async (): Promise<string | null> => {
 // 	try {
@@ -50,20 +53,20 @@ const axiosInstance = axios.create({
 			skipNull: true,
 			skipEmptyString: true,
 		}),
-});
+})
 
 // Map to keep track of ongoing requests
-const pendingRequests = new Map();
+const pendingRequests = new Map()
 
 axiosInstance.interceptors.request.use(
 	//@ts-ignore
 	async (config: AxiosRequestConfig) => {
-		const token = getAccessToken();
+		const token = getAccessToken()
 		if (token) {
 			config.headers = {
 				...config.headers,
 				Authorization: `Bearer ${token}`,
-			};
+			}
 		}
 
 		// // Create an AbortController for the current request
@@ -84,10 +87,10 @@ axiosInstance.interceptors.request.use(
 		// // Store the current request in the map
 		// pendingRequests.set(requestKey, controller);
 
-		return config;
+		return config
 	},
-	(error) => Promise.reject(error)
-);
+	(error) => Promise.reject(error),
+)
 
 // Response interceptor to handle token expiration
 axiosInstance.interceptors.response.use(
@@ -95,25 +98,25 @@ axiosInstance.interceptors.response.use(
 		// Remove the request from the pending requests map
 		const requestKey = `[${response.config.method}]-[${
 			response.config.url
-		}]-[${JSON.stringify(response.config.params)}]`;
-		pendingRequests.delete(requestKey);
-		return response;
+		}]-[${JSON.stringify(response.config.params)}]`
+		pendingRequests.delete(requestKey)
+		return response
 	},
 	async (error) => {
-		const originalRequest = error.config;
+		const originalRequest = error.config
 
 		// Remove the request from the pending requests map
 		const requestKey = `[${originalRequest.method}]-[${
 			originalRequest.url
-		}]-[${JSON.stringify(originalRequest.params)}]`;
-		pendingRequests.delete(requestKey);
+		}]-[${JSON.stringify(originalRequest.params)}]`
+		pendingRequests.delete(requestKey)
 
 		if (
 			error.response?.status === 401 &&
 			!error.request?.responseURL.includes("/login") &&
 			!originalRequest._retry
 		) {
-			localStorage.clear();
+			localStorage.clear()
 
 			// try {
 			//   const newToken = await refreshToken();
@@ -126,87 +129,87 @@ axiosInstance.interceptors.response.use(
 			// }
 		}
 
-		return Promise.reject(error);
-	}
-);
+		return Promise.reject(error)
+	},
+)
 
 // API request functions with centralized error handling
 
 export const apiGet = async <T>(
 	endpoint: string,
-	params: object = {}
+	params: object = {},
 ): Promise<T> => {
 	try {
-		const response = await axiosInstance.get<T>(endpoint, { params });
-		return response.data;
+		const response = await axiosInstance.get<T>(endpoint, { params })
+		return response.data
 	} catch (error) {
-		handleError(error as AxiosError);
-		throw error;
+		handleError(error as AxiosError)
+		throw error
 	}
-};
+}
 
 export const apiPost = async <T>(
 	endpoint: string,
-	data: object
+	data: object,
 ): Promise<T> => {
 	try {
-		const response = await axiosInstance.post<T>(endpoint, data);
-		return response.data;
+		const response = await axiosInstance.post<T>(endpoint, data)
+		return response.data
 	} catch (error) {
-		handleError(error as AxiosError);
-		throw error;
+		handleError(error as AxiosError)
+		throw error
 	}
-};
+}
 
 export const apiPatch = async <T>(
 	endpoint: string,
-	data: object
+	data: object,
 ): Promise<T> => {
 	try {
-		const response = await axiosInstance.patch<T>(endpoint, data);
-		return response.data;
+		const response = await axiosInstance.patch<T>(endpoint, data)
+		return response.data
 	} catch (error) {
-		handleError(error as AxiosError);
-		throw error;
+		handleError(error as AxiosError)
+		throw error
 	}
-};
+}
 
 export const apiPut = async <T>(endpoint: string, data: object): Promise<T> => {
 	try {
-		const response = await axiosInstance.put<T>(endpoint, data);
-		return response.data;
+		const response = await axiosInstance.put<T>(endpoint, data)
+		return response.data
 	} catch (error) {
-		handleError(error as AxiosError);
-		throw error;
+		handleError(error as AxiosError)
+		throw error
 	}
-};
+}
 
 export const apiDeleteWithData = async <T>(
 	endpoint: string,
-	data: object
+	data: object,
 ): Promise<T> => {
 	try {
-		const response = await axiosInstance.delete<T>(endpoint, { data });
-		return response.data;
+		const response = await axiosInstance.delete<T>(endpoint, { data })
+		return response.data
 	} catch (error) {
-		handleError(error as AxiosError);
-		throw error;
+		handleError(error as AxiosError)
+		throw error
 	}
-};
+}
 
 export const apiDelete = async <T>(endpoint: string): Promise<T> => {
 	try {
-		const response = await axiosInstance.delete<T>(endpoint);
-		return response.data;
+		const response = await axiosInstance.delete<T>(endpoint)
+		return response.data
 	} catch (error) {
-		handleError(error as AxiosError);
-		throw error;
+		handleError(error as AxiosError)
+		throw error
 	}
-};
+}
 
 // Centralized error handler
 const handleError = (error: AxiosError) => {
-	console.log("Error", error);
+	console.info("Error", error)
 	// You can handle different types of errors here, such as showing notifications
 	// or redirecting to login if the token is invalid.
-};
+}

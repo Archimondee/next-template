@@ -1,14 +1,14 @@
-"use client";
-import { useTodosDetails } from "@/hooks/useTodos";
-import Link from "next/link";
+"use client"
+import { useTodosDetails } from "@/hooks/useTodos"
+import Link from "next/link"
 
 export function TodoDetails({ id }: { id: number }) {
-	const { data: todo, isLoading, isError } = useTodosDetails(id);
+	const { data: todo, isLoading, isError } = useTodosDetails(id)
 
-	if (isLoading) return <div>Loading...</div>;
+	if (isLoading) return <div>Loading...</div>
 	if (isError)
-		return <div className="p-8 text-red-600">Error: Todo not found</div>;
-	if (!todo) return <div>Todo not found</div>;
+		return <div className="p-8 text-red-600">Error: Todo not found</div>
+	if (!todo) return <div>Todo not found</div>
 
 	return (
 		<div className="p-8">
@@ -42,5 +42,5 @@ export function TodoDetails({ id }: { id: number }) {
 				</div>
 			</div>
 		</div>
-	);
+	)
 }

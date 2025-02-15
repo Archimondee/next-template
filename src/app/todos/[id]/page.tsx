@@ -1,49 +1,49 @@
+import { apiGet } from "@/config/api/axios"
+import { Todo } from "@/types/TodoTypes"
 import {
-	dehydrate,
 	HydrationBoundary,
 	QueryClient,
-} from "@tanstack/react-query";
-import { TodoDetails } from "./todo-details";
-import { apiGet } from "@/config/api/axios";
-import { Todo } from "@/types/TodoTypes";
-import { Metadata } from "next";
+	dehydrate,
+} from "@tanstack/react-query"
+import { Metadata } from "next"
+import { TodoDetails } from "./todo-details"
 
 export default async function TodoPage(props: {
-	params: Promise<{ id: number }>;
+	params: Promise<{ id: number }>
 }) {
-	const params = await props.params;
-	const queryClient = new QueryClient();
+	const params = await props.params
+	const queryClient = new QueryClient()
 
-	const id = params.id;
+	const id = params.id
 
 	await queryClient.prefetchQuery({
 		queryKey: ["todos", id],
 		queryFn: async () => {
-			const data = await apiGet(`/todos/${id}`);
-			return data;
+			const data = await apiGet(`/todos/${id}`)
+			return data
 		},
-	});
+	})
 
 	return (
 		<HydrationBoundary state={dehydrate(queryClient)}>
 			<TodoDetails id={id} />
 		</HydrationBoundary>
-	);
+	)
 }
 
 export async function generateMetadata(props: {
-	params: Promise<{ id: number }>; // Keep as Promise
+	params: Promise<{ id: number }> // Keep as Promise
 }): Promise<Metadata> {
 	try {
-		const { id } = await props.params;
+		const { id } = await props.params
 		const fetching = await fetch(
-			`${process.env.NEXT_PUBLIC_API_URL}/todos/${id}`
-		);
-		const todo = (await fetching.json()) as Todo;
-		const title = `${todo.title} | Todo Details`;
+			`${process.env.NEXT_PUBLIC_API_URL}/todos/${id}`,
+		)
+		const todo = (await fetching.json()) as Todo
+		const title = `${todo.title} | Todo Details`
 		const description = `View details of todo: ${todo?.title}. Status: ${
 			todo?.completed ? "Completed" : "Pending"
-		}`;
+		}`
 
 		return {
 			title,
@@ -67,12 +67,11 @@ export async function generateMetadata(props: {
 				description,
 				images: ["/twitter-og.jpg"],
 			},
-		};
+		}
 	} catch (error) {
-		console.log("dataa", error);
 		return {
 			title: "Todo Not Found",
 			description: "The requested todo could not be found.",
-		};
+		}
 	}
 }
