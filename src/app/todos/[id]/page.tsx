@@ -1,12 +1,12 @@
 import { apiGet } from "@/config/api/axios"
-import { TodoDetails } from "@/pages/todo-details/todo-details"
-import { Todo } from "@/types/TodoTypes"
+import type { Todo } from "@/types/TodoTypes"
 import {
 	HydrationBoundary,
 	QueryClient,
 	dehydrate,
 } from "@tanstack/react-query"
-import { Metadata } from "next"
+import type { Metadata } from "next"
+import TodoDetails from "./todo-details"
 
 export default async function TodoPage(props: {
 	params: Promise<{ id: number }>

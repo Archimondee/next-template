@@ -1,6 +1,6 @@
 import { apiGet } from "@/config/api/axios"
-import { Todo } from "@/types/TodoTypes"
-import { QueryObserverOptions, useQuery } from "@tanstack/react-query"
+import type { Todo } from "@/types/TodoTypes"
+import { type QueryObserverOptions, useQuery } from "@tanstack/react-query"
 
 export function useTodos(options?: QueryObserverOptions<Todo[]>) {
 	return useQuery<Todo[], Error, Todo[]>({

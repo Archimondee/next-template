@@ -1,5 +1,5 @@
-import Login from "@/pages/login/login"
-import { Metadata } from "next"
+import type { Metadata } from "next"
+import Login from "./login"
 
 export default async function LoginPage() {
 	return (

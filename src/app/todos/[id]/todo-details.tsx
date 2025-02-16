@@ -2,7 +2,7 @@
 import { useTodosDetails } from "@/hooks/useTodos"
 import Link from "next/link"
 
-export function TodoDetails({ id }: { id: number }) {
+function TodoDetails({ id }: { id: number }) {
 	const { data: todo, isLoading, isError } = useTodosDetails(id)
 
 	if (isLoading) return <div>Loading...</div>
@@ -44,3 +44,5 @@ export function TodoDetails({ id }: { id: number }) {
 		</div>
 	)
 }
+
+export default TodoDetails

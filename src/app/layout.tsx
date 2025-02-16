@@ -1,5 +1,4 @@
 import { QueryProvider } from "@/config/providers/query-client"
-import "@radix-ui/themes/styles.css"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"

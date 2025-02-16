@@ -1,4 +1,4 @@
-import Dashboard from "@/pages/dashboard/dashboard"
+import Dashboard from "@/app/dashboard/dashboard"
 
 export default function DashboardPage() {
 	return (

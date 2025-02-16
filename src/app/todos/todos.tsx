@@ -3,7 +3,7 @@
 import { useTodos } from "@/hooks/useTodos"
 import Link from "next/link"
 
-export function Todos() {
+function Todos() {
 	const { data: todos, isLoading, error } = useTodos()
 
 	if (isLoading) return
@@ -34,3 +34,5 @@ export function Todos() {
 		</div>
 	)
 }
+
+export default Todos

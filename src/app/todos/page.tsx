@@ -1,6 +1,6 @@
 import { apiGet } from "@/config/api/axios"
-import { Todos } from "@/pages/todos/todos"
-import { Todo } from "@/types/TodoTypes"
+import type { Todo } from "@/types/TodoTypes"
+import Todos from "./todos"
 
 import {
 	HydrationBoundary,
