@@ -1,4 +1,4 @@
-import Profile from "./profile"
+import Profile from "@/pages/profile/profile"
 
 export default function ProfilePage() {
 	return (

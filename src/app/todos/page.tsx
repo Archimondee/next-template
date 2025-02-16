@@ -1,12 +1,12 @@
+import { apiGet } from "@/config/api/axios"
+import { Todos } from "@/pages/todos/todos"
+import { Todo } from "@/types/TodoTypes"
+
 import {
 	HydrationBoundary,
 	QueryClient,
 	dehydrate,
 } from "@tanstack/react-query"
-
-import { apiGet } from "@/config/api/axios"
-import { Todo } from "@/types/TodoTypes"
-import { Todos } from "./todos"
 
 export default async function TodosPage() {
 	const queryClient = new QueryClient()
