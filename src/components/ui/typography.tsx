@@ -17,10 +17,11 @@ export interface TypographyProps extends BoxProps {
 		| "large"
 		| "small"
 		| "muted"
+		| "div"
 }
 
 const Typography = React.forwardRef<HTMLDivElement, TypographyProps>(
-	({ className, as, variant = "p", ...props }, ref) => {
+	({ className, as, variant = "div", ...props }, ref) => {
 		const Component = as || variant
 
 		return (
